@@ -8,5 +8,3 @@ TAP_DANCE_ENABLE = yes
 SPACE_CADET_ENABLE = no
 CAPS_WORD_ENABLE = yes
 
-# my additions
-REPEAT_KEY_ENABLE = yes
