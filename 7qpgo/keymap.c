@@ -80,8 +80,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
-void matrix_scan_user(void) {
-  achordion_task();
+uint16_t achordion_timeout(uint16_t tap_hold_keycode) {
+  switch (tap_hold_keycode) {
+    case LT(3,KC_TAB):
+    case LT(1,KC_SPACE):
+    case LT(4,KC_ENTER):
+    case OSL(2):
+      return 0;  // Bypass Achordion for these keys.
+  }
+
+  return 800;  // Otherwise use a timeout of 800 ms.
 }
 
 bool achordion_chord(uint16_t tap_hold_keycode,
@@ -94,6 +102,10 @@ bool achordion_chord(uint16_t tap_hold_keycode,
   if (!(1 <= row && row <= 3)) { return true; }
 
   return achordion_opposite_hands(tap_hold_record, other_record);
+}
+
+void matrix_scan_user(void) {
+  achordion_task();
 }
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
